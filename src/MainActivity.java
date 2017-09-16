@@ -17,7 +17,7 @@ public class MainActivity {
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
 		File myFile = new File(
-				"D:\\My Document\\My stuff\\Programming\\WorkStation\\java\\ExcelReader\\Sample ERRA Data.xlsx");
+				"D:\\Google_Drive\\Current Term Work\\CS Senior Design\\QTC\\sample data\\Sample ERRA Data.xlsx");
 		FileInputStream fis = new FileInputStream(myFile);
 
 		// Finds the workbook instance for XLSX file
@@ -31,43 +31,37 @@ public class MainActivity {
 
 		// Traversing over each row of XLSX file
 		ArrayList<Date_Time> date_time = new ArrayList<>();
-		for(int i = 1; i < 2; i++)
+
 		{
-			Row row = mySheet.getRow(i);
+			Row row = mySheet.getRow(1);
 			int SkipFirstTwo = 0;
-			for(Cell cell: row)
-			{
-				if(SkipFirstTwo < 2)
-				{
+			for (Cell cell : row) {
+				if (SkipFirstTwo < 2) {
 					SkipFirstTwo++;
 					continue;
 				}
-				
+
 				switch (cell.getCellType()) {
 				case Cell.CELL_TYPE_STRING:
-					if(cell.getStringCellValue().contains("AM") || cell.getStringCellValue().contains("PM"))
-					{
+					if (cell.getStringCellValue().contains("AM") || cell.getStringCellValue().contains("PM")) {
 						String dateWithNoSpaces = cell.getStringCellValue().replaceAll(" ", "");
 						int TimeOfDayIndex = (dateWithNoSpaces.length() - 1) - 1;
 						String date = dateWithNoSpaces.substring(0, TimeOfDayIndex);
 						String TimeOfDay = dateWithNoSpaces.substring(TimeOfDayIndex, dateWithNoSpaces.length());
 						date_time.add(new Date_Time(date, TimeOfDay));
-					}
-					else
-					{
-						System.out.println("MainActivity.java: error in switch case [Cell.CELL_TYPE_STRING]: not suppose to enter this branch. formatting issue");
+					} else {
+						System.out.println(
+								"MainActivity.java: error in switch case [Cell.CELL_TYPE_STRING]: not suppose to enter this branch. formatting issue");
 						System.exit(1);
 					}
 					break;
 				case Cell.CELL_TYPE_NUMERIC:
-					if (DateUtil.isCellDateFormatted(cell)) 
-					{
+					if (DateUtil.isCellDateFormatted(cell)) {
 						SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 						date_time.add(new Date_Time(dateFormat.format(cell.getDateCellValue())));
-					} 
-					else 
-					{
-						System.out.println("MainActivity.java: error in switch case [Cell.CELL_TYPE_NUMERIC]: not suppose to enter this branch. formatting issue");
+					} else {
+						System.out.println(
+								"MainActivity.java: error in switch case [Cell.CELL_TYPE_NUMERIC]: not suppose to enter this branch. formatting issue");
 						System.exit(1);
 					}
 					break;
@@ -76,42 +70,54 @@ public class MainActivity {
 				}
 			}
 		}
-		System.out.println("HELLO");
-		/*
-		while (rowIterator.hasNext()) {
-			Row row = rowIterator.next();
 
-			// For each row, iterate through each columns
-			Iterator<Cell> cellIterator = row.cellIterator();
-			while (cellIterator.hasNext()) {
-
-				Cell cell = cellIterator.next();
+		{
+			Row row = mySheet.getRow(2);
+			int SkipFirstTwo = 0;
+			int indexTracker = 0;
+			for (Cell cell : row) {
+				if (SkipFirstTwo < 2) {
+					SkipFirstTwo++;
+					continue;
+				}
 
 				switch (cell.getCellType()) {
 				case Cell.CELL_TYPE_STRING:
-					System.out.print(cell.getStringCellValue() + "\t");
+					date_time.get(indexTracker).TimeOfday = cell.getStringCellValue();
 					break;
 				case Cell.CELL_TYPE_NUMERIC:
-					String strCellValue = null;
-					if (DateUtil.isCellDateFormatted(cell)) {
-						SimpleDateFormat dateFormat = new SimpleDateFormat(
-								"MM/dd/yyyy");
-						strCellValue = dateFormat.format(cell.getDateCellValue());
-					} else {
-						Double value = cell.getNumericCellValue();
-						Long longValue = value.longValue();
-						strCellValue = new String(longValue.toString());
-					}
-					
-					System.out.print(strCellValue + "\t");
+					System.out.println(
+							"MainActivity.java: error in switch case [Cell.CELL_TYPE_NUMERIC]: not suppose to enter this branch. formatting issue");
 					break;
-					
-				default:
-					System.out.print(cell.getStringCellValue() + "\t");
 				}
+				indexTracker++;
 			}
-			System.out.println("");
+
+			System.out.println("HELLO");
+
+			/*
+			 * while (rowIterator.hasNext()) { Row row = rowIterator.next();
+			 * 
+			 * // For each row, iterate through each columns Iterator<Cell> cellIterator =
+			 * row.cellIterator(); while (cellIterator.hasNext()) {
+			 * 
+			 * Cell cell = cellIterator.next();
+			 * 
+			 * switch (cell.getCellType()) { case Cell.CELL_TYPE_STRING:
+			 * System.out.print(cell.getStringCellValue() + "\t"); break; case
+			 * Cell.CELL_TYPE_NUMERIC: String strCellValue = null; if
+			 * (DateUtil.isCellDateFormatted(cell)) { SimpleDateFormat dateFormat = new
+			 * SimpleDateFormat( "MM/dd/yyyy"); strCellValue =
+			 * dateFormat.format(cell.getDateCellValue()); } else { Double value =
+			 * cell.getNumericCellValue(); Long longValue = value.longValue(); strCellValue
+			 * = new String(longValue.toString()); }
+			 * 
+			 * System.out.print(strCellValue + "\t"); break;
+			 * 
+			 * default: System.out.print(cell.getStringCellValue() + "\t"); } }
+			 * System.out.println(""); }
+			 */
 		}
-		*/
+
 	}
 }
