@@ -173,7 +173,6 @@ public class ERRA
 			}
 			RowIndex++;
 		}
-		System.out.println("HELLO");
 		myWorkBook.close();
 	}
 }
