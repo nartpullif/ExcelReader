@@ -16,12 +16,18 @@ public class MainActivity
 		VaProviderNetwork vpNetwork = null;
 		try
 		{
+			/*
 			erra = new ERRA(
-					"D:\\My Document\\My stuff\\Google Drive\\Current Term Work\\CS Senior Design\\QTC\\sample data\\Sample ERRA Data.xlsx");
+					"D:\\My Document\\My stuff\\Google Drive\\Current Term Work\\CS Senior Design\\QTC\\sample data\\Sample ERRA Data");
 			referral = new Referral(
 					"D:\\My Document\\My stuff\\Google Drive\\Current Term Work\\CS Senior Design\\QTC\\sample data\\Sample referral data v2.xlsx");
 			vpNetwork = new VaProviderNetwork(
 					"D:\\My Document\\My stuff\\Google Drive\\Current Term Work\\CS Senior Design\\QTC\\sample data\\VA Provider Network List_non VetFed_083117.xlsx");
+			*/
+			
+			erra = new ERRA("D:\\Google_Drive\\Current Term Work\\CS Senior Design\\QTC\\sample data\\Sample ERRA Data.xlsx");
+			referral = new Referral("D:\\Google_Drive\\Current Term Work\\CS Senior Design\\QTC\\sample data\\Sample referral data v2.xlsx");
+			vpNetwork= new VaProviderNetwork("D:\\Google_Drive\\Current Term Work\\CS Senior Design\\QTC\\sample data\\VA Provider Network List_non VetFed_083117.xlsx");
 		}
 		catch (IOException e)
 		{
@@ -55,6 +61,8 @@ public class MainActivity
 			System.out.println("\t0: Exit");
 			System.out.println("\t1: List of Claimants by State and date");
 			System.out.println("\t2: List of Provider by Zipcode");
+			System.out.println("\t3: List of Claimants by State");
+			System.out.println("\t4: List all Claimants");
 			System.out.print(">>>>> ");
 			int n = reader.nextInt(); // Scans the next token of the input as an
 										// int.
@@ -97,7 +105,37 @@ public class MainActivity
 					}
 				}
 			}
+			else if(n == 3) 
+			{
+				System.out.print("Enter State (XX): ");
+				String State = reader.next();
+
+				int count = 0;
+				for(Referral.Claimant claimant : referral.ListOfClaimant)
+				{
+					if(claimant.State.equals(State))
+					{
+						System.out.println(claimant.toString());
+						count++;
+					}
+				}
+				
+				System.out.println("\nCount: " + count);
+			}
+			else if(n == 4) 
+			{
+				int count = 0;
+				for(Referral.Claimant claimant : referral.ListOfClaimant)
+				{
+					System.out.println(claimant.toString());
+					count++;
+				}
+				
+				System.out.println("\nCount: " + count);
+			}
+
 		}
+		
 
 		reader.close();
 	}
